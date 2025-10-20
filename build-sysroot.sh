@@ -6,6 +6,8 @@ if [ "$(id -u)" != '0' ]
 then echo 'This script must be run as root' >&2; exit 1
 fi
 
+version=xenial
+
 packages='
     gcc-9
     g++-9
@@ -33,7 +35,7 @@ fi
 
 mkdir sysroot
 mkdir sysroot/sysroot
-curl -Lo sysroot.tar.xz https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-$arch-root.tar.xz
+curl -Lo sysroot.tar.xz https://cloud-images.ubuntu.com/${version}/current/${version}-server-cloudimg-${arch}-root.tar.xz
 tar -xJf sysroot.tar.xz -C sysroot/sysroot --exclude 'dev/*'
 
 touch sysroot/sysroot/dev/full
