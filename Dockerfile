@@ -9,7 +9,6 @@ ENV branch=$branch
 ARG NUMPROC
 
 ENV PACKAGES \
-    alsa-utils \
     autoconf \
     automake \
     autopoint \
@@ -17,67 +16,28 @@ ENV PACKAGES \
     bc \
     binfmt-support \
     bison \
-    bsdmainutils \
-    build-essential \
-    bzip2 \
-    ccache \
-    chrpath \
     clang \
     cmake \
     curl \
-    debhelper \
-    diffutils \
-    doxygen \
     flex \
-    fuse \
     gawk \
     gettext \
     git \
-    gnupg \
-    gnupg2 \
-    gperf \
-    gzip \
     intltool \
-    less \
-    libtool \
     libtool-bin \
-    libxml-parser-perl \
     lld \
     llvm \
-    lsb-release \
-    lzip \
-    lzop \
     make \
     meson \
-    nasm \
     ninja-build \
-    nsis \
-    p7zip-full \
     patch \
-    patchutils \
-    perl \
     pkg-config \
-    python3 \
-    python3-mako \
-    python3-setuptools \
-    python3-sphinx \
-    python3-yaml \
     qemu-user-static \
-    ruby \
     sed \
     sudo \
-    sunxi-tools \
-    swig \
     tar \
-    texinfo \
-    u-boot-tools \
     unzip \
-    wayland-protocols \
-    wget \
-    xfonts-utils \
-    xsltproc \
-    xz-utils \
-    yasm
+    wget
 
 RUN set -eux; \
     apt-get -y update; \

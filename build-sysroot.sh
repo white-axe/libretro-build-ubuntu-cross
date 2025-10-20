@@ -9,59 +9,7 @@ fi
 packages='
     gcc-9
     g++-9
-    libaio-dev
-    libasound2-dev
-    libass-dev
-    libavdevice-dev
-    libbz2-dev
-    libcaca-dev
-    libdrm-dev
-    libffi-dev
-    libflac-dev
-    libfreetype6-dev
-    libfribidi-dev
-    libgbm-dev
-    libgdbm-dev
-    libgdk-pixbuf2.0-dev
-    libglib2.0-dev
-    libglm-dev
-    libglu1-mesa-dev
-    libgtk-3-dev
-    libgtk2.0-dev
-    libjack-jackd2-dev
-    libjson-perl
-    libltdl-dev
-    liblua5.3-dev
-    liblzma-dev
-    libmbedtls-dev
-    libminiupnpc-dev
-    libmpv-dev
-    libncurses5-dev
-    libopenal-dev
-    libosmesa6-dev
-    libpcap-dev
-    libreadline-dev
-    libroar-dev
-    libsdl2-dev
-    libsixel-dev
-    libslang2-dev
-    libssl-dev
-    libsystemd-dev
-    libusb-1.0-0-dev
-    libv4l-dev
-    libvulkan-dev
-    libwayland-dev
-    libwxgtk3.0-dev
-    libx11-dev
-    libx11-xcb-dev
-    libxcb-shm0-dev
-    libxkbcommon-dev
-    libxml2-dev
     mesa-common-dev
-    qtbase5-dev
-    uuid-dev
-    x11proto-xext-dev
-    zlib1g-dev
 '
 
 packages=$(echo $packages)
@@ -104,8 +52,11 @@ cp /etc/resolv.conf sysroot/sysroot/etc/
 
 PATH=/usr/sbin:/usr/bin:/sbin:/bin chroot sysroot/sysroot /bin/bash -e -c "
     add-apt-repository -y ppa:ubuntu-toolchain-r/test
-    apt update
-    apt install -y $packages
+    apt-get update
+    apt-get -y install $packages
+    apt-get -y autoremove
+    apt-get -y clean
+    rm -rf /var/lib/apt/lists/*
     cp /usr/lib/$target/libm.so /usr/lib/$target/libm.a
 "
 
