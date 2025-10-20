@@ -24,13 +24,26 @@ jobs:
           - target: x86_64-linux-gnu
     steps:
       - name: Log into container registry
-        run: docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
+        run: |
+          docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
 
       - name: Checkout repository
         uses: actions/checkout@v5
 
       - name: Build
-        run: docker build --build-arg TARGET=${{ matrix.target }} --tag ${{ github.repository }}:${{ matrix.target }} .
+        run: |
+          touch full
+          touch null
+          touch random
+          touch urandom
+          touch zero
+          sudo mount --bind /dev/full full
+          sudo mount --bind /dev/null null
+          sudo mount --bind /dev/random random
+          sudo mount --bind /dev/urandom urandom
+          sudo mount --bind /dev/zero zero
+          docker build --build-arg TARGET=${{ matrix.target }} --tag ${{ github.repository }}:${{ matrix.target }} .
 
       - name: Upload to container registry
-        run: docker image push ${{ github.repository }}:${{ matrix.target }}
+        run: |
+          docker image push ${{ github.repository }}:${{ matrix.target }}

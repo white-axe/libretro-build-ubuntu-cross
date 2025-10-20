@@ -175,19 +175,22 @@ RUN set -eux; \
     mkdir sysroot; \
     curl -Lo sysroot.tar.xz https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-$arch-root.tar.xz; \
     tar -xJf sysroot.tar.xz -C sysroot --exclude 'dev/*'; \
+    chmod 777 sysroot/tmp/; \
+    rm -f sysroot/etc/resolv.conf; \
+    cp /etc/resolv.conf sysroot/etc/; \
     touch sysroot/dev/full; \
     touch sysroot/dev/null; \
     touch sysroot/dev/random; \
     touch sysroot/dev/urandom; \
-    touch sysroot/dev/zero; \
-    mount --bind /dev/full sysroot/dev/full; \
-    mount --bind /dev/null sysroot/dev/null; \
-    mount --bind /dev/random sysroot/dev/random; \
-    mount --bind /dev/urandom sysroot/dev/urandom; \
-    mount --bind /dev/zero sysroot/dev/zero; \
-    chmod 777 sysroot/tmp/; \
-    rm -f sysroot/etc/resolv.conf; \
-    cp /etc/resolv.conf sysroot/etc/; \
+    touch sysroot/dev/zero
+
+RUN \
+    --mount=type=bind,source=full,target=sysroot/dev/full \
+    --mount=type=bind,source=null,target=sysroot/dev/null \
+    --mount=type=bind,source=random,target=sysroot/dev/random \
+    --mount=type=bind,source=urandom,target=sysroot/dev/urandom \
+    --mount=type=bind,source=zero,target=sysroot/dev/zero \
+    set -eux; \
     PATH=/usr/sbin:/usr/bin:/sbin:/bin chroot sysroot /bin/bash -e -c " \
         add-apt-repository -y ppa:ubuntu-toolchain-r/test; \
         apt-get update; \
