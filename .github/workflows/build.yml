@@ -29,7 +29,7 @@ jobs:
           sudo apt install binfmt-support curl qemu-user-static tar
 
       - name: Log into container registry
-        run: docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
+        run: sudo docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
 
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -38,7 +38,7 @@ jobs:
         run: sudo ./build-sysroot.sh ${{ matrix.target }}
 
       - name: Build image
-        run: docker build --tag ${{ github.repository }}:${{ matrix.target }} .
+        run: sudo docker build --tag ${{ github.repository }}:${{ matrix.target }} .
 
       - name: Upload to container registry
-        run: docker image push ghcr.io/${{ github.repository }}:${{ matrix.target }}
+        run: sudo docker image push ghcr.io/${{ github.repository }}:${{ matrix.target }}

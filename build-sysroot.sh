@@ -107,6 +107,12 @@ cp /etc/resolv.conf sysroot/sysroot/etc/
 PATH=/usr/sbin:/usr/bin:/sbin:/bin chroot sysroot/sysroot /bin/bash -e -c "
     add-apt-repository -y ppa:ubuntu-toolchain-r/test
     apt update
-    apt install -y gcc-9 g++-9 $packages
+    apt install -y $packages
     cp /usr/lib/$target/libm.so /usr/lib/$target/libm.a
 "
+
+umount sysroot/sysroot/dev/full
+umount sysroot/sysroot/dev/null
+umount sysroot/sysroot/dev/random
+umount sysroot/sysroot/dev/urandom
+umount sysroot/sysroot/dev/zero
