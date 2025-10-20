@@ -15,6 +15,7 @@ ENV PACKAGES \
     bash \
     bc \
     bison \
+    ccache \
     clang \
     cmake \
     curl \
@@ -51,6 +52,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 COPY sysroot /
+ENV CMAKE_TOOLCHAIN_FILE=/sysroot/libretro.cmake
 ENV CC=/sysroot/libretro-cc
 ENV CXX=/sysroot/libretro-c++
 ENV LD=/usr/bin/ld.lld
