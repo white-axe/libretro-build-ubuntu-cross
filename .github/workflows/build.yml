@@ -8,6 +8,10 @@ on:
 permissions:
   packages: write
 
+concurrency:
+  group: build
+  cancel-in-progress: false
+
 jobs:
   build:
     name: Build ${{ matrix.target }}
@@ -32,7 +36,7 @@ jobs:
         run: sudo docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: taiki-e/checkout-action@v1
 
       - name: Build sysroot
         run: sudo ./build-sysroot.sh ${{ matrix.target }}
