@@ -14,7 +14,6 @@ ENV PACKAGES \
     autopoint \
     bash \
     bc \
-    binfmt-support \
     bison \
     clang \
     cmake \
@@ -32,7 +31,6 @@ ENV PACKAGES \
     ninja-build \
     patch \
     pkg-config \
-    qemu-user-static \
     sed \
     sudo \
     tar \
