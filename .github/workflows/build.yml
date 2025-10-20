@@ -38,7 +38,7 @@ jobs:
         run: sudo ./build-sysroot.sh ${{ matrix.target }}
 
       - name: Build image
-        run: sudo docker build --tag ${{ github.repository }}:${{ matrix.target }} .
+        run: sudo docker build --tag ghcr.io/${{ github.repository }}:${{ matrix.target }} .
 
       - name: Upload to container registry
         run: sudo docker image push ghcr.io/${{ github.repository }}:${{ matrix.target }}
