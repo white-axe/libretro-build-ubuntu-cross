@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: arm-linux-gnueabihf
+          - target: aarch64-linux-gnu
+          - target: powerpc64le-linux-gnu
+          - target: s390x-linux-gnu
+          - target: i386-linux-gnu
+          - target: x86_64-linux-gnu
+    steps:
+      - name: Log into container registry
+        run: docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build
+        run: docker build --build-arg TARGET=${{ matrix.target }} --tag ${{ github.repository }}:${{ matrix.target }} .
+
+      - name: Upload to container registry
+        run: docker image push ${{ github.repository }}:${{ matrix.target }}
