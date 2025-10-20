@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    name: Build
+    name: Build ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -23,27 +23,22 @@ jobs:
           - target: i386-linux-gnu
           - target: x86_64-linux-gnu
     steps:
-      - name: Log into container registry
+      - name: Install dependencies
         run: |
-          docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
+          sudo apt update
+          sudo apt install binfmt-support curl qemu-user-static tar
+
+      - name: Log into container registry
+        run: docker login --username ${{ github.actor }} --password ${{ github.token }} ghcr.io
 
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Build
-        run: |
-          touch full
-          touch null
-          touch random
-          touch urandom
-          touch zero
-          sudo mount --bind /dev/full full
-          sudo mount --bind /dev/null null
-          sudo mount --bind /dev/random random
-          sudo mount --bind /dev/urandom urandom
-          sudo mount --bind /dev/zero zero
-          docker build --build-arg TARGET=${{ matrix.target }} --tag ${{ github.repository }}:${{ matrix.target }} .
+      - name: Build sysroot
+        run: sudo ./build-sysroot.sh ${{ matrix.target }}
+
+      - name: Build image
+        run: docker build --tag ${{ github.repository }}:${{ matrix.target }} .
 
       - name: Upload to container registry
-        run: |
-          docker image push ${{ github.repository }}:${{ matrix.target }}
+        run: docker image push ghcr.io/${{ github.repository }}:${{ matrix.target }}
