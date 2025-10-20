@@ -68,7 +68,7 @@ umount sysroot/sysroot/dev/zero
 
 echo '#!/bin/sh' > sysroot/sysroot/libretro-cc
 echo 'exec /usr/bin/clang --target='$target' --sysroot=/sysroot --start-no-unused-arguments -fuse-ld=lld --end-no-unused-arguments "$@"' >> sysroot/sysroot/libretro-cc
-echo '#!/bin/sh' > sysroot/sysroot/libretro-cc
+echo '#!/bin/sh' > sysroot/sysroot/libretro-c++
 echo 'exec /usr/bin/clang++ --target='$target' --sysroot=/sysroot --start-no-unused-arguments -fuse-ld=lld --end-no-unused-arguments "$@"' >> sysroot/sysroot/libretro-c++
 chmod +x sysroot/sysroot/libretro-cc
 chmod +x sysroot/sysroot/libretro-c++
