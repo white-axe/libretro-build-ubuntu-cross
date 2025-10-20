@@ -39,7 +39,10 @@ ENV PACKAGES \
     gzip \
     intltool \
     less \
+    libtool \
+    libtool-bin \
     libxml-parser-perl \
+    lld \
     llvm \
     lsb-release \
     lzip \
@@ -90,6 +93,17 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 COPY sysroot /
+ENV CC=/sysroot/libretro-cc
+ENV CXX=/sysroot/libretro-c++
+ENV LD=/usr/bin/ld.lld
+ENV AR=/usr/bin/llvm-ar
+ENV AS=/usr/bin/llvm-as
+ENV NM=/usr/bin/llvm-nm
+ENV OBJCOPY=/usr/bin/llvm-objcopy
+ENV OBJDUMP=/usr/bin/llvm-objdump
+ENV RANLIB=/usr/bin/llvm-ranlib
+ENV STRIP=/usr/bin/llvm-strip
+ENV STRINGS=/usr/bin/llvm-strings
 
 RUN echo "developer:developer" | chpasswd && adduser developer sudo
 

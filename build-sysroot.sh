@@ -47,8 +47,6 @@ packages='
     libslang2-dev
     libssl-dev
     libsystemd-dev
-    libtool
-    libtool-bin
     libusb-1.0-0-dev
     libv4l-dev
     libvulkan-dev
@@ -116,3 +114,8 @@ umount sysroot/sysroot/dev/null
 umount sysroot/sysroot/dev/random
 umount sysroot/sysroot/dev/urandom
 umount sysroot/sysroot/dev/zero
+
+echo '#!/bin/sh'$'\n''exec /usr/bin/clang --target='$target' --sysroot=/sysroot --start-no-unused-arguments -fuse-ld=lld --end-no-unused-arguments "$@"' > sysroot/sysroot/libretro-cc
+echo '#!/bin/sh'$'\n''exec /usr/bin/clang++ --target='$target' --sysroot=/sysroot --start-no-unused-arguments -fuse-ld=lld --end-no-unused-arguments "$@"' > sysroot/sysroot/libretro-c++
+chmod +x sysroot/sysroot/libretro-cc
+chmod +x sysroot/sysroot/libretro-c++
