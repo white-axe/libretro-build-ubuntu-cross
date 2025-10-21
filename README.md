@@ -16,7 +16,7 @@ To build a libretro core that uses Make, just run Make normally, but don't set t
 ```sh
 MAKEFILE_PATH='.'
 MAKEFILE='Makefile.libretro'
-make -C "$MAKEFILE_PATH" -f "$MAKEFILE"
+make -C "$MAKEFILE_PATH" -f "$MAKEFILE" platform=unix
 ```
 
 To build a libretro core that uses CMake, just run CMake normally, since the toolchain file is already set up to use the cross compiler.
